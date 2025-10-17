@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid #ff6b35;
+        }
+        
+        h1 {
+            color: #ff6b35;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+        
+        .input-section {
+            background: #0f0f1e;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #ff6b35;
+        }
+        
+        .input-label {
+            color: #ffa500;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 16px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 0;
+            align-items: stretch;
+            width: 100%;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: #1a1a2e;
+            border: none;
+            flex: 0 0 25%;
+            height: 60px;
+            font-size: 36px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        button:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+        
+        button:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #ff8c42 0%, #ffa500 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 140, 66, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        input[type="number"] {
+            width: 40%;
+            padding: 15px;
+            font-size: 24px;
+            border: 2px solid #ff6b35;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+            background: #1a1a2e;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #ffa500;
+            box-shadow: 0 0 10px rgba(255, 140, 66, 0.3);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .stat-card.full-width {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #ffa500 0%, #ff6b35 100%);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .date-range {
+            background: #0f0f1e;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: #ffa500;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 2px solid #ff6b35;
+        }
+        
+        .alert {
+            background: #2a2a3e;
+            border-left: 4px solid #ff6b35;
+            padding: 15px;
+            border-radius: 5px;
+            color: #ffa500;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Order Tracker</h1>
+        
+        <div class="date-range">
+            📅 17-10-2025 to 19-10-2025
+        </div>
+        
+        <div class="input-section">
+            <label class="input-label">End of Day Record</label>
+            <div class="input-group">
+                <button onclick="decrementEOD()">−</button>
+                <input type="number" id="eodInput" value="0" min="0" oninput="calculate()">
+                <button onclick="incrementEOD()">+</button>
+            </div>
+        </div>
+        
+        <div class="input-section">
+            <label class="input-label">Live Count</label>
+            <div class="input-group">
+                <button onclick="decrementLive()">−</button>
+                <input type="number" id="liveInput" value="0" min="0" oninput="calculate()">
+                <button onclick="incrementLive()">+</button>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Days Left</div>
+                <div class="stat-value" id="daysLeft">3</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Target</div>
+                <div class="stat-value" id="target">75</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Remaining</div>
+                <div class="stat-value" id="remaining">75</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Need Today</div>
+                <div class="stat-value" id="needToday">0</div>
+            </div>
+            
+            <div class="stat-card full-width">
+                <div class="stat-label" id="avgLabel">Appx Remaining</div>
+                <div class="stat-value" id="avgPerDay">25.0</div>
+            </div>
+        </div>
+        
+        <div class="alert">
+            💡 Note: Data persists during this browser session only. For 5-day persistence, use this code in your own environment with localStorage enabled.
+        </div>
+    </div>
+
+    <script>
+        // In-memory storage
+        let storage = {
+            eodOrders: 0,
+            liveOrders: 0
+        };
+
+        // Date calculations
+        const startDate = new Date('2025-10-17');
+        const endDate = new Date('2025-10-19');
+        const today = new Date('2025-10-17'); // Current date for demo
+        
+        function getDaysLeft() {
+            const diffTime = endDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            return Math.max(diffDays, 1);
+        }
+
+        function incrementEOD() {
+            const input = document.getElementById('eodInput');
+            input.value = parseInt(input.value) + 1;
+            calculate();
+        }
+
+        function decrementEOD() {
+            const input = document.getElementById('eodInput');
+            const newValue = Math.max(0, parseInt(input.value) - 1);
+            input.value = newValue;
+            calculate();
+        }
+
+        function incrementLive() {
+            const input = document.getElementById('liveInput');
+            input.value = parseInt(input.value) + 1;
+            calculate();
+        }
+
+        function decrementLive() {
+            const input = document.getElementById('liveInput');
+            const newValue = Math.max(0, parseInt(input.value) - 1);
+            input.value = newValue;
+            calculate();
+        }
+
+        function calculate() {
+            const eodOrders = parseInt(document.getElementById('eodInput').value) || 0;
+            const liveOrders = parseInt(document.getElementById('liveInput').value) || 0;
+            
+            // Store in memory
+            storage.eodOrders = eodOrders;
+            storage.liveOrders = liveOrders;
+            
+            // Determine target based on EOD orders
+            const target = eodOrders >= 75 ? 85 : 75;
+            
+            // Calculate remaining orders based on EOD
+            const remaining = target - eodOrders;
+            
+            // Calculate days left
+            const daysLeft = getDaysLeft();
+            
+            // Calculate "Need Today" - difference between appx target for today and live count
+            let todayTarget;
+            if (daysLeft === 3) {
+                todayTarget = Math.ceil(remaining / 3);
+            } else if (daysLeft === 2) {
+                todayTarget = Math.ceil(remaining / 2);
+            } else {
+                todayTarget = remaining;
+            }
+            
+            const needToday = Math.max(0, todayTarget - liveOrders);
+            
+            // Calculate Appx Remaining display value
+            let displayValue;
+            const avgLabel = document.getElementById('avgLabel');
+            
+            if (daysLeft === 1) {
+                // Last day - show full remaining amount
+                avgLabel.textContent = 'Must Need Today';
+                displayValue = remaining > 0 ? remaining : 0;
+            } else if (daysLeft === 2) {
+                // Day 2 - divide by 2
+                avgLabel.textContent = 'Appx Remaining';
+                displayValue = remaining > 0 ? (remaining / 2).toFixed(1) : 0;
+            } else {
+                // Day 3 - divide by 3
+                avgLabel.textContent = 'Appx Remaining';
+                displayValue = remaining > 0 ? (remaining / 3).toFixed(1) : 0;
+            }
+            
+            // Update UI
+            document.getElementById('target').textContent = target;
+            document.getElementById('remaining').textContent = remaining;
+            document.getElementById('daysLeft').textContent = daysLeft;
+            document.getElementById('needToday').textContent = needToday;
+            document.getElementById('avgPerDay').textContent = displayValue;
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            document.getElementById('eodInput').value = storage.eodOrders;
+            document.getElementById('liveInput').value = storage.liveOrders;
+            calculate();
+        };
+    </script>
+</body>
+</html>
