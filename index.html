@@ -18,40 +18,43 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 5px;
+            overflow-x: hidden;
         }
         
         .container {
             background: #1a1a2e;
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 15px;
+            padding: 12px;
             box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
             max-width: 500px;
-            width: 100%;
+            width: calc(100% - 10px);
             border: 2px solid #ff6b35;
+            overflow: hidden;
         }
         
         h1 {
             color: #ff6b35;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: center;
-            font-size: 28px;
+            font-size: 24px;
         }
         
         .input-section {
             background: #0f0f1e;
-            padding: 25px;
+            padding: 12px;
             border-radius: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 2px solid #ff6b35;
+            box-sizing: border-box;
         }
         
         .input-label {
             color: #ffa500;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: block;
-            font-size: 16px;
+            font-size: 13px;
         }
         
         .input-group {
@@ -59,6 +62,7 @@
             gap: 0;
             align-items: stretch;
             width: 100%;
+            box-sizing: border-box;
         }
         
         button {
@@ -66,11 +70,13 @@
             color: #1a1a2e;
             border: none;
             flex: 0 0 25%;
-            height: 60px;
-            font-size: 36px;
+            min-width: 0;
+            height: 50px;
+            font-size: 24px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: bold;
+            box-sizing: border-box;
         }
         
         button:first-child {
@@ -92,9 +98,10 @@
         }
         
         input[type="number"] {
-            width: 40%;
-            padding: 15px;
-            font-size: 24px;
+            flex: 0 0 50%;
+            min-width: 0;
+            padding: 10px 2px;
+            font-size: 22px;
             border: 2px solid #ff6b35;
             border-radius: 0;
             border-left: none;
@@ -103,6 +110,8 @@
             font-weight: bold;
             color: #fff;
             background: #1a1a2e;
+            height: 50px;
+            box-sizing: border-box;
         }
         
         input[type="number"]:focus {
@@ -113,15 +122,15 @@
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
         }
         
         .stat-card {
             background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
-            padding: 20px;
-            border-radius: 15px;
+            padding: 15px;
+            border-radius: 10px;
             color: white;
         }
         
@@ -131,37 +140,48 @@
         }
         
         .stat-label {
-            font-size: 12px;
+            font-size: 10px;
             opacity: 0.9;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
         .stat-value {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: bold;
+        }
+        
+        @media (min-width: 400px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .stat-value {
+                font-size: 28px;
+            }
         }
         
         .date-range {
             background: #0f0f1e;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             text-align: center;
             color: #ffa500;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 2px solid #ff6b35;
+            font-size: 14px;
         }
         
         .alert {
             background: #2a2a3e;
             border-left: 4px solid #ff6b35;
-            padding: 15px;
+            padding: 12px;
             border-radius: 5px;
             color: #ffa500;
-            margin-top: 20px;
-            font-size: 14px;
+            margin-top: 15px;
+            font-size: 12px;
         }
     </style>
 </head>
